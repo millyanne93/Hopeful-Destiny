@@ -15,9 +15,12 @@
     "tailwindcss": "^3.4.10",
     "web-vitals": "^2.1.4"
   },
+  "homepage": "https://millyanne93.github.io/hopeful-destiny",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -42,6 +45,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.6",
     "autoprefixer": "^10.4.20",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.5.2",
     "postcss-cli": "^11.0.0"
   }
