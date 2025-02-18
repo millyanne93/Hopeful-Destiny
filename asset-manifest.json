@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Hopeful-Destiny/static/css/main.1eec04f5.css",
+    "main.js": "/Hopeful-Destiny/static/js/main.cad38383.js",
+    "static/js/453.a1e12168.chunk.js": "/Hopeful-Destiny/static/js/453.a1e12168.chunk.js",
+    "index.html": "/Hopeful-Destiny/index.html",
+    "main.1eec04f5.css.map": "/Hopeful-Destiny/static/css/main.1eec04f5.css.map",
+    "main.cad38383.js.map": "/Hopeful-Destiny/static/js/main.cad38383.js.map",
+    "453.a1e12168.chunk.js.map": "/Hopeful-Destiny/static/js/453.a1e12168.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1eec04f5.css",
+    "static/js/main.cad38383.js"
+  ]
+}
