@@ -15,7 +15,7 @@
     "tailwindcss": "^3.4.10",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://millyanne93.github.io/hopeful-destiny",
+  "homepage": "https://millyanne93.github.io/Hopeful-Destiny",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
