@@ -1,5 +1,4 @@
-// import React, { useState } from 'react';
-import Navigation from '../components/Navigation';
+import React from 'react';
 import Hero from '../components/Hero';
 import Mission from '../components/Mission';
 import Programs from '../components/Programs';
@@ -9,7 +8,6 @@ import Footer from '../components/Footer';
 
 const HomePage = () => (
   <>
-    <Navigation />
     <Hero />
     <Mission />
     <Programs />
