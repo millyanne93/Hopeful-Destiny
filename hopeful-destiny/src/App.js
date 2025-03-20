@@ -22,6 +22,5 @@ function App() {
         <Route path="/water-sanitation" element={<WaterPage />} />
       </Routes>
     </Router>
-      
   );
 }
