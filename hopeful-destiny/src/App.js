@@ -6,6 +6,7 @@ import HealthPage from "./pages/HealthPage";
 import WaterPage from "./pages/WaterPage";
 import React from 'react';
 import HomePage from "./pages/HomePage";
+import About from "./pages/About";
 import "./index.css";  // Ensure styles are applied
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
     <Router basename="/Hopeful-Destiny">
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<About />} />
         <Route path="/climate" element={<ClimatePage />} />
         <Route path="/education" element={<EducationPage />} />
         <Route path="/food-security" element={<FoodSecurityPage />} />
@@ -20,8 +22,5 @@ function App() {
         <Route path="/water-sanitation" element={<WaterPage />} />
       </Routes>
     </Router>
-      
   );
 }
-
-export default App;
