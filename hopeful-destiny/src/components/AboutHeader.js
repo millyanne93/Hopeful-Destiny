@@ -1,4 +1,4 @@
-import aboutImage from '../assets/children-friends.jpg';
+import aboutImage from '../assets/Children Friends.jpg';
 import Mission from './Mission';
 
 const AboutHeader = () => (
