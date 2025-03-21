@@ -31,8 +31,8 @@ const Navigation = () => {
           <div className="hidden md:flex items-center space-x-8">
             <NavLink to="/" text="Home" />
             <NavLink to="/about" text="About" />
-            <NavLink to="/#programs" text="Programs" />
-            <NavLink to="/#contact" text="Contact" />
+            <NavLink to="/programs" text="Programs" />
+            <NavLink to="/contact" text="Contact" />
             <button className="bg-yellow-700 text-black px-6 py-2 rounded-full font-semibold hover:bg-yellow-400 transition">
               Donate
             </button>

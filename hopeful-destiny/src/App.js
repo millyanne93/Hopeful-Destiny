@@ -7,11 +7,14 @@ import WaterPage from "./pages/WaterPage";
 import React from 'react';
 import HomePage from "./pages/HomePage";
 import About from "./pages/About";
+import Navigation from "./components/Navigation";
 import "./index.css";  // Ensure styles are applied
 
 function App() {
   return (
     <Router basename="/Hopeful-Destiny">
+      <Navigation /> 
+
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<About />} />
@@ -24,3 +27,5 @@ function App() {
     </Router>
   );
 }
+
+export default App;
