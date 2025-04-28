@@ -8,6 +8,7 @@ import React from 'react';
 import HomePage from "./pages/HomePage";
 import About from "./pages/About";
 import Navigation from "./components/Navigation";
+import BlogRoutes from './BlogRoutes';
 import "./index.css";  // Ensure styles are applied
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/food-security" element={<FoodSecurityPage />} />
         <Route path="/health" element={<HealthPage />} />
         <Route path="/water-sanitation" element={<WaterPage />} />
+        <Route path="/blog/*" element={<BlogRoutes />} />
       </Routes>
     </Router>
   );
