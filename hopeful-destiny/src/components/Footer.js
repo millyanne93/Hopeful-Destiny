@@ -14,7 +14,7 @@ const Footer = () => {
           <div>
             <h3 className="text-yellow-700 text-xl font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition">Home</a></li>
+              <li><a href="/" className="text-gray-400 hover:text-white transition">Home</a></li>
               <li><a href="#about" className="text-gray-400 hover:text-white transition">About</a></li>
               <li><a href="#programs" className="text-gray-400 hover:text-white transition">Programs</a></li>
               <li><a href="#contact" className="text-gray-400 hover:text-white transition">Contact</a></li>
@@ -40,13 +40,13 @@ const Footer = () => {
           <div>
             <h3 className="text-yellow-700 text-xl font-bold mb-4">Follow Us</h3>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition">
                 <Facebook className="w-6 h-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition">
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition">
                 <Linkedin className="w-6 h-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition">
                 <Instagram className="w-6 h-6" />
               </a>
             </div>
