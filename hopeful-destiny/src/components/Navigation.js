@@ -47,8 +47,8 @@ const Navigation = () => {
           <div className="md:hidden pb-6">
             <NavLink to="/" text="Home" mobile />
             <NavLink to="/about" text="About" mobile />
-            <NavLink to="/#programs" text="Programs" mobile />
-            <NavLink to="/#contact" text="Contact" mobile />
+            <NavLink to="/programs" text="Programs" mobile />
+            <NavLink to="/contact" text="Contact" mobile />
             <button className="w-full bg-yellow-700 text-black px-6 py-2 rounded-full font-semibold hover:bg-yellow-400 transition mt-4">
               Donate
             </button>

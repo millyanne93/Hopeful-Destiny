@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage";
 import About from "./pages/About";
 import Navigation from "./components/Navigation";
 import BlogRoutes from './BlogRoutes';
+import ProgramsPage from "./pages/ProgramsPage";
 import "./index.css";  // Ensure styles are applied
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<About />} />
+        <Route path="/programs" element={<ProgramsPage />} />
         <Route path="/climate" element={<ClimatePage />} />
         <Route path="/education" element={<EducationPage />} />
         <Route path="/food-security" element={<FoodSecurityPage />} />
