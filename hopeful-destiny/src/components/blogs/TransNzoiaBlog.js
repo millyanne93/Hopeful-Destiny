@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
+import TransNzoiaMap from '../../assets/TransNzoia.jpg';
 
 const TransNzoiaBlog = () => {
   // State for scroll progress
@@ -130,14 +131,19 @@ const TransNzoiaBlog = () => {
             </p>
             
             {/* Interactive map visualization (simplified) */}
-            <div className="my-6 bg-blue-50 p-4 rounded-lg border border-blue-200 transition-all duration-500 transform hover:scale-105">
-              <div className="flex justify-center items-center h-64 bg-blue-100 rounded relative overflow-hidden">
-                <div className="absolute w-full h-full bg-blue-200 opacity-50" style={{clipPath: 'polygon(30% 10%, 70% 10%, 90% 50%, 70% 90%, 30% 90%, 10% 50%)'}}></div>
-                <h3 className="text-xl font-bold text-blue-800 z-10">Trans Nzoia County</h3>
-                <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
-                <div className="absolute text-xs font-bold text-red-700 top-1/4 left-1/4 ml-5">Kitale</div>
+            <div className="my-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
+              <div className="overflow-hidden rounded-lg">
+                <img 
+                  src={TransNzoiaMap}
+                  alt="Trans Nzoia County Map showing geographical boundaries, neighboring counties, and location in Kenya"
+                  className="w-full h-auto transition-transform duration-500 hover:scale-110 cursor-zoom-in rounded-lg shadow-md"
+                  onClick={() => window.open(TransNzoiaMap, '_blank')}
+                />
               </div>
-              <p className="text-sm text-center mt-2 text-blue-600">Interactive: Hover over the map to zoom slightly</p>
+              <p className="text-sm text-center mt-3 text-gray-600">
+                Map of Trans Nzoia County showing its location and boundaries
+                <span className="block text-xs text-gray-500 mt-1 italic">Click image to view full size</span>
+              </p>
             </div>
             
             <p>

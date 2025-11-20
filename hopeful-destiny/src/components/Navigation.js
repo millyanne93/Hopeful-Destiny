@@ -32,6 +32,7 @@ const Navigation = () => {
             <NavLink to="/" text="Home" />
             <NavLink to="/about" text="About" />
             <NavLink to="/programs" text="Programs" />
+            <NavLink to="/blog" text="Blog" /> 
             <NavLink to="/contact" text="Contact" />
             <button className="bg-yellow-700 text-black px-6 py-2 rounded-full font-semibold hover:bg-yellow-400 transition">
               Donate
@@ -48,6 +49,7 @@ const Navigation = () => {
             <NavLink to="/" text="Home" mobile />
             <NavLink to="/about" text="About" mobile />
             <NavLink to="/programs" text="Programs" mobile />
+            <NavLink to="/blog" text="Blog" mobile />
             <NavLink to="/contact" text="Contact" mobile />
             <button className="w-full bg-yellow-700 text-black px-6 py-2 rounded-full font-semibold hover:bg-yellow-400 transition mt-4">
               Donate
