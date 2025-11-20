@@ -1,29 +1,174 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 import AboutHeader from '../components/AboutHeader';
 import VisionMissionPromise from '../components/VisionMissionPromise';
 import Values from '../components/Values';
 import Leadership from '../components/Leadership';
+import Footer from '../components/Footer';
 
 const AboutPage = () => {
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Intersection Observer hooks for each section
+  const [headerRef, headerInView] = useInView({ threshold: 0.2, triggerOnce: true });
+  const [visionRef, visionInView] = useInView({ threshold: 0.2, triggerOnce: true });
+  const [valuesRef, valuesInView] = useInView({ threshold: 0.2, triggerOnce: true });
+  const [leadershipRef, leadershipInView] = useInView({ threshold: 0.2, triggerOnce: true });
+
+  // Track scroll progress
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalHeight) * 100;
+      setScrollProgress(progress);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="w-full">
-      <section id="about" className="py-16 bg-gray-50">
-        <div className="container mx-auto px-6">
+    <div className="w-full relative">
+      {/* Progress bar */}
+      <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
+        <div
+          className="h-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 transition-all duration-300"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
+      {/* Hero-style header with gradient */}
+      <section 
+        ref={headerRef}
+        className="pt-20 bg-gradient-to-br from-yellow-50 via-white to-yellow-50 relative overflow-hidden"
+      >
+        {/* Animated background shapes */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-72 h-72 bg-yellow-200 rounded-full blur-3xl opacity-20 animate-float"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-300 rounded-full blur-3xl opacity-20 animate-float" style={{ animationDelay: '2s' }}></div>
+        </div>
+
+        <div className={`container mx-auto px-6 py-16 relative z-10 transition-all duration-1000 ${
+          headerInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
           <AboutHeader />
         </div>
       </section>
 
-      <div className="container mx-auto px-6 mt-16">
-        <VisionMissionPromise />
-      </div>
+      {/* Vision, Mission, Promise - Card Style */}
+      <section 
+        ref={visionRef}
+        className="py-20 bg-white relative"
+      >
+        <div className={`container mx-auto px-6 transition-all duration-1000 delay-200 ${
+          visionInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
+          {/* Section title with animation */}
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 relative inline-block">
+              Our Foundation
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent"></div>
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              The guiding principles that drive our mission forward
+            </p>
+          </div>
 
-      <div className="container mx-auto px-6 mt-20">
-        <Values />
-      </div>
+          <div className="relative">
+            {/* Connecting line between cards */}
+            <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-yellow-300 to-transparent transform -translate-y-1/2 z-0"></div>
+            
+            <VisionMissionPromise />
+          </div>
+        </div>
+      </section>
 
-      <div className="container mx-auto px-6 mt-16 mb-16">
-        <Leadership />
-      </div>
+      {/* Values - Interactive Grid */}
+      <section 
+        ref={valuesRef}
+        className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden"
+      >
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+          <div className="absolute top-20 right-10 w-64 h-64 bg-yellow-100 rounded-full blur-3xl opacity-30"></div>
+          <div className="absolute bottom-20 left-10 w-80 h-80 bg-yellow-200 rounded-full blur-3xl opacity-20"></div>
+        </div>
+
+        <div className={`container mx-auto px-6 relative z-10 transition-all duration-1000 delay-300 ${
+          valuesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 relative inline-block">
+              Our Core Values
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent"></div>
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              The values that define who we are and how we serve
+            </p>
+          </div>
+          <Values />
+        </div>
+      </section>
+
+      {/* Leadership - Premium Card Style */}
+      <section 
+        ref={leadershipRef}
+        className="py-20 bg-white relative"
+      >
+        <div className={`container mx-auto px-6 transition-all duration-1000 delay-400 ${
+          leadershipInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 relative inline-block">
+              Meet Our Team
+              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent"></div>
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Dedicated leaders committed to making a difference
+            </p>
+          </div>
+          <Leadership />
+        </div>
+      </section>
+
+      {/* Call to Action Banner */}
+      <section className="py-16 bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-500 relative overflow-hidden">
+        {/* Animated background pattern */}
+        <div className="absolute inset-0 opacity-10">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-4 h-4 bg-white rounded-full animate-float"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${10 + Math.random() * 10}s`,
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="container mx-auto px-6 text-center relative z-10">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            Ready to Make a Difference?
+          </h2>
+          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            Join us in our mission to empower communities and create lasting change
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="group bg-white text-yellow-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl">
+              Donate Now
+              <span className="inline-block ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
+            </button>
+            <button className="bg-yellow-700 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-800 transition-all transform hover:scale-105 border-2 border-white/30 hover:border-white">
+              Get Involved
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 };
