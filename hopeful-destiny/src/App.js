@@ -10,7 +10,8 @@ import About from "./pages/About";
 import Navigation from "./components/Navigation";
 import BlogRoutes from './BlogRoutes';
 import ProgramsPage from "./pages/ProgramsPage";
-import "./index.css";  // Ensure styles are applied
+import "./index.css";
+import DonationPage from './pages/DonationPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/health" element={<HealthPage />} />
         <Route path="/water-sanitation" element={<WaterPage />} />
         <Route path="/blog/*" element={<BlogRoutes />} />
+        <Route path="/donate" element={<DonationPage />} />
       </Routes>
     </Router>
   );

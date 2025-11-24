@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
+import { useInView } from 'react-intersection-observer';
+import { MapPin, Cloud, Users, TrendingDown, Heart, ChevronRight, BarChart3, Mountain } from 'lucide-react';
 import TransNzoiaMap from '../../assets/TransNzoia.jpg';
+import Footer from '../Footer';
+import { Link } from 'react-router-dom';
 
 const TransNzoiaBlog = () => {
-  // State for scroll progress
   const [scrollProgress, setScrollProgress] = useState(0);
-  // State for section visibility
   const [visibleSections, setVisibleSections] = useState({});
-  // State for the climate data visualization
   const [showRainfallData, setShowRainfallData] = useState(false);
-  // State for expanded sections
   const [expandedSections, setExpandedSections] = useState({});
+  const [activeZone, setActiveZone] = useState(null);
+
+  // Intersection observer for sections
+  const [heroRef, heroInView] = useInView({ threshold: 0.2, triggerOnce: true });
+  const [mapRef, mapInView] = useInView({ threshold: 0.3, triggerOnce: true });
+  const [climateRef, climateInView] = useInView({ threshold: 0.3, triggerOnce: true });
+  const [statsRef, statsInView] = useInView({ threshold: 0.3, triggerOnce: true });
 
   // Handle scroll progress
   useEffect(() => {
@@ -18,22 +25,18 @@ const TransNzoiaBlog = () => {
       const totalHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const progress = (window.scrollY / totalHeight) * 100;
       setScrollProgress(progress);
-      
-      // Check which sections are visible
+
       const sections = document.querySelectorAll('h2');
       const visibleSectionsUpdate = {};
-      
+
       sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
-        const isVisible = 
-          rect.top <= window.innerHeight / 2 && 
-          rect.bottom >= window.innerHeight / 2;
-        
+        const isVisible = rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
         if (isVisible) {
           visibleSectionsUpdate[section.textContent] = true;
         }
       });
-      
+
       setVisibleSections(visibleSectionsUpdate);
     };
 
@@ -41,7 +44,6 @@ const TransNzoiaBlog = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Toggle expanded sections
   const toggleSection = (section) => {
     setExpandedSections(prev => ({
       ...prev,
@@ -49,7 +51,6 @@ const TransNzoiaBlog = () => {
     }));
   };
 
-  // Climate data for visualization
   const rainfallData = [
     { month: 'Jan', rainfall: 30 },
     { month: 'Feb', rainfall: 40 },
@@ -65,229 +66,402 @@ const TransNzoiaBlog = () => {
     { month: 'Dec', rainfall: 60 }
   ];
 
+  const keyStats = [
+    { icon: <MapPin className="w-6 h-6" />, label: 'Area', value: '2,495.6 km²', color: 'blue' },
+    { icon: <Users className="w-6 h-6" />, label: 'Population', value: '990,341', color: 'green' },
+    { icon: <TrendingDown className="w-6 h-6" />, label: 'Poverty Rate', value: '58.7%', color: 'red' },
+    { icon: <Cloud className="w-6 h-6" />, label: 'Annual Rainfall', value: '1000-1700mm', color: 'cyan' },
+  ];
+
   return (
-    <div className="bg-white py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div className="bg-gradient-to-b from-gray-50 to-white min-h-screen">
       <Helmet>
         <title>Understanding Trans Nzoia County | Hopeful Destiny CBO</title>
-        <meta name="description" content="Learn about Trans Nzoia County in Kenya, the region Hopeful Destiny CBO serves, including its geography, climate, population, and more." />
+        <meta name="description" content="Learn about Trans Nzoia County in Kenya, the region Hopeful Destiny CBO serves." />
       </Helmet>
 
-      {/* Reading progress bar */}
-      <div className="fixed top-0 left-0 w-full h-1 z-50">
-        <div 
-          className="h-full bg-indigo-600 transition-all duration-300 ease-out"
+      {/* Animated Progress Bar */}
+      <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
+        <div
+          className="h-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 transition-all duration-300"
           style={{ width: `${scrollProgress}%` }}
         />
       </div>
 
-      {/* Table of contents sidebar - visible on large screens */}
-      <div className="hidden lg:block fixed left-4 top-1/4 bg-white p-4 rounded-lg shadow-md max-w-xs">
-        <h3 className="font-bold text-lg mb-3">Contents</h3>
+      {/* Enhanced Table of Contents - Floating Sidebar */}
+      <div className="hidden lg:block fixed left-4 top-1/4 bg-white p-4 rounded-2xl shadow-xl border border-gray-100 max-w-xs z-40 backdrop-blur-sm bg-white/95">
+        <div className="flex items-center gap-2 mb-4">
+          <BarChart3 className="w-5 h-5 text-yellow-600" />
+          <h3 className="font-bold text-lg text-gray-900">Contents</h3>
+        </div>
         <ul className="space-y-2">
-          {['Position and Size', 'Climatic Conditions', 'Ecological Conditions', 'Population and Demographics', 'Poverty Analysis', 'Why This Matters For Our Work'].map((section) => (
+          {['Position and Size', 'Climatic Conditions', 'Ecological Conditions', 'Population and Demographics', 'Poverty Analysis', 'Why This Matters'].map((section) => (
             <li key={section} className="transition-all duration-300">
-              <a 
-                href={`#${section.toLowerCase().replace(/\s+/g, '-')}`} 
-                className={`block py-1 px-2 rounded ${visibleSections[section] ? 'bg-indigo-100 text-indigo-800 font-medium' : 'text-gray-600 hover:text-indigo-600'}`}
+              <a
+                href={`#${section.toLowerCase().replace(/\s+/g, '-')}`}
+                className={`flex items-center gap-2 py-2 px-3 rounded-lg transition-all ${
+                  visibleSections[section]
+                    ? 'bg-yellow-100 text-yellow-800 font-semibold shadow-sm'
+                    : 'text-gray-600 hover:text-yellow-600 hover:bg-yellow-50'
+                }`}
               >
-                {section}
+                <ChevronRight className={`w-4 h-4 transition-transform ${visibleSections[section] ? 'rotate-90' : ''}`} />
+                <span className="text-sm">{section}</span>
               </a>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">
-            Understanding Trans Nzoia County: The Region We Serve
-          </h1>
-          <p className="text-lg text-gray-500">
-            Published on April 8, 2025
-          </p>
-          <div className="mt-6">
-            <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800 mr-2">
-              Regional Information
-            </span>
-            <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-              Community Context
-            </span>
-          </div>
+      {/* Hero Section */}
+      <div 
+        ref={heroRef}
+        className="relative pt-24 pb-16 bg-gradient-to-br from-yellow-50 via-white to-yellow-50 overflow-hidden"
+      >
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[...Array(15)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute bg-yellow-300 rounded-full blur-2xl opacity-10 animate-float"
+              style={{
+                width: `${50 + Math.random() * 100}px`,
+                height: `${50 + Math.random() * 100}px`,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${10 + Math.random() * 10}s`,
+              }}
+            />
+          ))}
         </div>
 
-        <div className="prose prose-lg prose-indigo mx-auto text-gray-800">
-          <p className="lead text-xl">
+        <div className={`max-w-5xl mx-auto px-6 relative z-10 transition-all duration-1000 ${
+          heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
+          <div className="text-center">
+            {/* Tags */}
+            <div className="flex flex-wrap justify-center gap-3 mb-6">
+              <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-green-100 text-green-700 border border-green-200">
+                <MapPin className="w-4 h-4 mr-2" />
+                Regional Information
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-blue-100 text-blue-700 border border-blue-200">
+                <Users className="w-4 h-4 mr-2" />
+                Community Context
+              </span>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+              Understanding{' '}
+              <span className="bg-gradient-to-r from-yellow-600 to-yellow-700 bg-clip-text text-transparent">
+                Trans Nzoia County
+              </span>
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              The region where <span className="font-semibold text-yellow-700">Hopeful Destiny</span> serves communities and creates lasting change
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Key Stats Cards */}
+      <section 
+        ref={statsRef}
+        className="py-12 bg-white relative"
+      >
+        <div className="max-w-6xl mx-auto px-6">
+          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-1000 ${
+            statsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}>
+            {keyStats.map((stat, index) => (
+              <div
+                key={index}
+                className={`group relative bg-gradient-to-br from-${stat.color}-50 to-white rounded-2xl p-6 border border-${stat.color}-100 hover:border-${stat.color}-300 transition-all transform hover:scale-105 hover:-translate-y-2 shadow-lg hover:shadow-xl cursor-pointer`}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className={`inline-flex p-3 bg-${stat.color}-100 rounded-xl mb-4 group-hover:scale-110 transition-transform`}>
+                  <div className={`text-${stat.color}-600`}>{stat.icon}</div>
+                </div>
+                <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
+                <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <div className="max-w-5xl mx-auto px-6 py-16">
+        {/* Introduction */}
+        <div className="prose prose-lg max-w-none mb-16">
+          <p className="text-xl text-gray-700 leading-relaxed bg-yellow-50 border-l-4 border-yellow-500 p-6 rounded-r-lg">
             Hopeful Destiny Organization primarily serves the communities of Trans Nzoia County in Kenya.
             Understanding the geographical, climatic and demographic context of this region is crucial to
             appreciating the challenges and opportunities we face in our work.
           </p>
+        </div>
 
-          <h2 id="position-and-size" className="text-2xl font-bold mt-10 mb-4 scroll-mt-16">Position and Size</h2>
-          <div className="relative">
-            <p>
-              Trans Nzoia County is situated in the North Rift of the former Rift Valley province. It covers an
-              area of 2,495.6 square kilometers. The County lies approximately between latitudes 00° 52´ and 10° 18´
-              north of the equator and longitudes 34° 38´ and 35° 23´ east of the Great Meridian.
-            </p>
-            
-            {/* Interactive map visualization (simplified) */}
-            <div className="my-6 bg-gray-50 p-4 rounded-lg border border-gray-200">
-              <div className="overflow-hidden rounded-lg">
-                <img 
+        {/* Position and Size Section */}
+        <section id="position-and-size" className="mb-20 scroll-mt-24">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 bg-yellow-100 rounded-xl">
+              <MapPin className="w-6 h-6 text-yellow-600" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Position and Size</h2>
+          </div>
+
+          <p className="text-lg text-gray-700 leading-relaxed mb-8">
+            Trans Nzoia County is situated in the North Rift of the former Rift Valley province, covering an
+            area of 2,495.6 square kilometers between latitudes 00° 52´ and 10° 18´ north of the equator.
+          </p>
+
+          {/* Interactive Map */}
+          <div 
+            ref={mapRef}
+            className={`my-10 transition-all duration-1000 ${
+              mapInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+            }`}
+          >
+            <div className="relative group bg-gradient-to-br from-yellow-50 to-white p-6 rounded-3xl shadow-2xl border border-yellow-200 hover:border-yellow-400 transition-all">
+              <div className="overflow-hidden rounded-2xl">
+                <img
                   src={TransNzoiaMap}
-                  alt="Trans Nzoia County Map showing geographical boundaries, neighboring counties, and location in Kenya"
-                  className="w-full h-auto transition-transform duration-500 hover:scale-110 cursor-zoom-in rounded-lg shadow-md"
+                  alt="Trans Nzoia County Map"
+                  className="w-full h-auto transition-transform duration-700 group-hover:scale-110 cursor-zoom-in"
                   onClick={() => window.open(TransNzoiaMap, '_blank')}
                 />
               </div>
-              <p className="text-sm text-center mt-3 text-gray-600">
-                Map of Trans Nzoia County showing its location and boundaries
-                <span className="block text-xs text-gray-500 mt-1 italic">Click image to view full size</span>
+              <div className="mt-4 text-center">
+                <p className="text-gray-700 font-medium mb-2">
+                  Map of Trans Nzoia County showing its location and boundaries
+                </p>
+                <p className="text-sm text-gray-500 italic flex items-center justify-center gap-2">
+                  <span className="inline-block w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
+                  Click image to view full size
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-lg text-gray-700 leading-relaxed">
+            The county borders the Republic of Uganda to the West, Bungoma and Kakamega Counties to the South,
+            West Pokot County to the East, and Elgeyo Marakwet and Uasin Gishu Counties to the South East.
+          </p>
+
+          {/* Subcounties Card */}
+          <div 
+            className="mt-8 bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-all cursor-pointer"
+            onClick={() => toggleSection('subcounties')}
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-2xl font-bold text-gray-900">Political and Administrative Areas</h3>
+              <button className="p-2 bg-yellow-100 rounded-full text-yellow-600 hover:bg-yellow-200 transition-colors">
+                <ChevronRight className={`w-6 h-6 transition-transform duration-300 ${expandedSections['subcounties'] ? 'rotate-90' : ''}`} />
+              </button>
+            </div>
+
+            <div className={`transition-all duration-500 overflow-hidden ${
+              expandedSections['subcounties'] ? 'max-h-96 opacity-100' : 'max-h-20 opacity-70'
+            }`}>
+              <p className="text-gray-700 mb-4">Trans Nzoia County has five subcounties:</p>
+              <div className="grid md:grid-cols-2 gap-3">
+                {['Cherangany', 'Kwanza', 'Endebes', 'Saboti', 'Kiminini'].map((sub, idx) => (
+                  <div key={sub} className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
+                    <div className="w-8 h-8 bg-yellow-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                      {idx + 1}
+                    </div>
+                    <span className="font-medium text-gray-900">{sub}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-4 text-gray-700">
+                <strong>County Headquarters:</strong> Kitale
               </p>
             </div>
-            
-            <p>
-              The county borders the Republic of Uganda to the West, Bungoma and Kakamega Counties to the South,
-              West Pokot County to the East, and Elgeyo Marakwet and Uasin Gishu Counties to the South East.
+
+            {!expandedSections['subcounties'] && (
+              <p className="text-yellow-600 font-medium text-sm mt-2 flex items-center gap-2">
+                <span className="inline-block w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
+                Click to expand for more details
+              </p>
+            )}
+          </div>
+        </section>
+
+        {/* Climate Section */}
+        <section 
+          ref={climateRef}
+          id="climatic-conditions" 
+          className="mb-20 scroll-mt-24"
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 bg-blue-100 rounded-xl">
+              <Cloud className="w-6 h-6 text-blue-600" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Climatic Conditions</h2>
+          </div>
+
+          <div className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 shadow-lg border border-blue-200 mb-8">
+            <p className="text-lg text-gray-700 leading-relaxed">
+              The County has a <span className="font-semibold text-blue-700">cool and temperate climate</span> with mean maximum temperatures 
+              ranging between <strong>23.4°C and 29.2°C</strong> and mean minimum temperatures 
+              ranging between <strong>11.0°C and 13.5°C</strong>.
             </p>
           </div>
 
-          <div className="my-8 bg-gray-50 p-6 rounded-lg transition-all duration-300 cursor-pointer hover:shadow-md" onClick={() => toggleSection('subcounties')}>
-            <div className="flex justify-between items-center">
-              <h3 className="text-xl font-semibold mb-3">Political and Administrative Areas</h3>
-              <span className="text-indigo-600">
-                {expandedSections['subcounties'] ? '−' : '+'}
-              </span>
-            </div>
-            
-            <div className={`transition-all duration-500 overflow-hidden ${expandedSections['subcounties'] ? 'max-h-96' : 'max-h-20'}`}>
-              <p>
-                Trans Nzoia County has five subcounties:
-              </p>
-              <ul className="list-disc pl-6 mt-2">
-                <li>Cherangany</li>
-                <li>Kwanza</li>
-                <li>Endebes</li>
-                <li>Saboti</li>
-                <li>Kiminini</li>
-              </ul>
-              <p className="mt-2">
-                The county headquarters is located in Kitale.
-              </p>
-              {!expandedSections['subcounties'] && (
-                <p className="text-indigo-600 italic text-sm">Click to expand for more details...</p>
-              )}
-            </div>
-          </div>
-
-          <h2 id="climatic-conditions" className="text-2xl font-bold mt-10 mb-4 scroll-mt-16">Climatic Conditions</h2>
-          <p>
-            The County has a cool and temperate climate with mean maximum (day time)
-            temperatures ranging between 23.4°C and 29.2°C and mean minimum (night time)
-            temperatures ranging between 11.0°C and 13.5°C. The maximum and minimum extreme
-            temperatures are recorded in February (about 34.2°C) and January (about 6.5°C)
-            respectively.
-          </p>
-          
-          {/* Interactive climate visualization */}
-          <div className="my-6">
-            <button 
+          {/* Interactive Rainfall Chart */}
+          <div className={`transition-all duration-1000 ${
+            climateInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}>
+            <button
               onClick={() => setShowRainfallData(!showRainfallData)}
-              className="w-full py-2 px-4 bg-indigo-50 text-indigo-700 rounded-t-lg border border-indigo-200 hover:bg-indigo-100 transition-colors duration-300 flex justify-between items-center"
+              className="w-full group bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 px-6 rounded-t-2xl hover:from-blue-700 hover:to-blue-800 transition-all flex justify-between items-center shadow-lg"
             >
-              <span>View Monthly Rainfall Distribution</span>
-              <span>{showRainfallData ? '−' : '+'}</span>
+              <span className="text-lg font-semibold flex items-center gap-3">
+                <BarChart3 className="w-6 h-6" />
+                Monthly Rainfall Distribution
+              </span>
+              <span className="text-2xl font-bold group-hover:scale-110 transition-transform">
+                {showRainfallData ? '−' : '+'}
+              </span>
             </button>
-            
+
             {showRainfallData && (
-              <div className="border border-t-0 border-indigo-200 p-4 rounded-b-lg bg-white transition-all duration-500">
-                <div className="h-64 flex items-end justify-around">
-                  {rainfallData.map((data) => (
-                    <div key={data.month} className="flex flex-col items-center w-8">
-                      <div 
-                        className="bg-blue-500 w-full rounded-t-sm transition-all duration-1000 ease-out" 
-                        style={{ height: `${data.rainfall / 2}px` }}
-                      />
-                      <div className="text-xs mt-1">{data.month}</div>
+              <div className="bg-white border-x-2 border-b-2 border-blue-200 p-8 rounded-b-2xl shadow-xl">
+                <div className="h-80 flex items-end justify-around gap-2">
+                  {rainfallData.map((data, idx) => (
+                    <div 
+                      key={data.month} 
+                      className="flex flex-col items-center flex-1 group cursor-pointer"
+                    >
+                      <div className="relative w-full">
+                        <div
+                          className="bg-gradient-to-t from-blue-600 to-blue-400 w-full rounded-t-lg transition-all duration-1000 ease-out hover:from-yellow-600 hover:to-yellow-400 shadow-lg"
+                          style={{ 
+                            height: `${(data.rainfall / 170) * 280}px`,
+                            animationDelay: `${idx * 50}ms`
+                          }}
+                        />
+                        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white px-2 py-1 rounded text-xs font-bold whitespace-nowrap">
+                          {data.rainfall}mm
+                        </div>
+                      </div>
+                      <div className="text-sm font-medium text-gray-700 mt-3">{data.month}</div>
                     </div>
                   ))}
                 </div>
-                <p className="text-sm text-center mt-4 text-gray-600">
-                  Average monthly rainfall in millimeters for Trans Nzoia County
+                <p className="text-center mt-6 text-gray-600 font-medium">
+                  Average monthly rainfall in millimeters
                 </p>
               </div>
             )}
           </div>
-          
-          <p>
-            The mean monthly relative humidity is 67%, ranging from a maximum of
-            97% in July and a minimum of 35% in January. The mean wind speed within the county
-            is 66.79 km/h or 36.06 knots.
-          </p>
-          <p>
-            The County receives annual rainfall ranging from 1000mm to 1700mm, with western parts receiving
-            the highest rainfall. The annual rainfall is distributed into three major seasons:
-          </p>
-          <ul className="list-disc pl-6 my-4">
-            <li><strong>Long rainfall season:</strong> March, April, May (MAM)</li>
-            <li><strong>Intermediate Season:</strong> June-July-August (JJA)</li>
-            <li><strong>Short rainfall season:</strong> October-November-December (OND)</li>
-          </ul>
-          <p>
-            In recent years, drought, dry spells, and floods have increased in frequency and complexity,
-            likely exacerbated by climate change.
-          </p>
 
-          <h2 id="ecological-conditions" className="text-2xl font-bold mt-10 mb-4 scroll-mt-16">Ecological Conditions</h2>
-          <p>
+          {/* Rainfall Seasons */}
+          <div className="mt-10 grid md:grid-cols-3 gap-6">
+            {[
+              { season: 'Long Rains', months: 'March, April, May', icon: '🌧️', color: 'blue' },
+              { season: 'Intermediate', months: 'June, July, August', icon: '⛅', color: 'gray' },
+              { season: 'Short Rains', months: 'Oct, Nov, Dec', icon: '🌦️', color: 'indigo' }
+            ].map((item, idx) => (
+              <div key={idx} className={`bg-${item.color}-50 rounded-xl p-6 border border-${item.color}-200 hover:shadow-lg transition-all transform hover:-translate-y-1`}>
+                <div className="text-4xl mb-3">{item.icon}</div>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">{item.season}</h4>
+                <p className="text-gray-700 text-sm">{item.months}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Ecological Zones */}
+        <section id="ecological-conditions" className="mb-20 scroll-mt-24">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 bg-green-100 rounded-xl">
+              <Mountain className="w-6 h-6 text-green-600" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Ecological Conditions</h2>
+          </div>
+
+          <p className="text-lg text-gray-700 leading-relaxed mb-8">
             The County is divided into three major agro-ecological zones:
           </p>
 
-          <div className="grid md:grid-cols-3 gap-6 my-8">
-            {['Upper Highland Zone', 'Lower Highland Zone', 'Upper Midland Zone'].map((zone, index) => {
-              const colors = ['green', 'yellow', 'blue'];
-              const color = colors[index];
-              
-              return (
-                <div 
-                  key={zone}
-                  className={`bg-${color}-50 p-6 rounded-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg cursor-pointer`}
-                  onClick={() => toggleSection(zone)}
-                >
-                  <h3 className="text-xl font-semibold mb-3">{zone}</h3>
-                  <p className={`text-sm transition-all duration-500 ${expandedSections[zone] ? 'line-clamp-none' : 'line-clamp-3'}`}>
-                    {index === 0 && "Covers the hills and slopes of Mt. Elgon, Cherang'any hills, and the boundary zone towards West Pokot County. Lies between 2,400 and 4,299 meters above sea level and constitutes about 16% of the County land area."}
-                    {index === 1 && "Covers slopes of Mt Elgon and Cherang'any Hills with altitudes from 1,800-2,400 meters above sea level. Covers 34% of the county area with fertile red and brown clay soils derived from volcanic ash."}
-                    {index === 2 && "Covers approximately 50% of the county area between altitudes of 1,700 and 2,000 meters above sea level. Features well-drained deep red and brown clays suitable for various agricultural activities."}
-                  </p>
-                  {!expandedSections[zone] && (
-                    <p className={`text-${color}-600 italic text-xs mt-2`}>Click to read more...</p>
-                  )}
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { name: 'Upper Highland Zone', color: 'green', icon: '⛰️', coverage: '16%', description: "Covers the hills and slopes of Mt. Elgon and Cherang'any hills, lying between 2,400 and 4,299 meters above sea level." },
+              { name: 'Lower Highland Zone', color: 'yellow', icon: '🏔️', coverage: '34%', description: "Covers slopes with altitudes from 1,800-2,400 meters with fertile red and brown clay soils derived from volcanic ash." },
+              { name: 'Upper Midland Zone', color: 'blue', icon: '🌄', coverage: '50%', description: "Covers altitudes of 1,700-2,000 meters with well-drained deep red and brown clays suitable for agriculture." }
+            ].map((zone, index) => (
+              <div
+                key={zone.name}
+                className={`group bg-gradient-to-br from-${zone.color}-50 to-white rounded-2xl p-8 border-2 border-${zone.color}-200 hover:border-${zone.color}-400 transition-all transform hover:scale-105 hover:shadow-2xl cursor-pointer ${
+                  activeZone === index ? 'ring-4 ring-yellow-400' : ''
+                }`}
+                onClick={() => setActiveZone(activeZone === index ? null : index)}
+                onMouseEnter={() => setActiveZone(index)}
+                onMouseLeave={() => setActiveZone(null)}
+              >
+                <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">{zone.icon}</div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{zone.name}</h3>
+                <div className={`inline-block px-4 py-2 bg-${zone.color}-600 text-white rounded-full text-sm font-bold mb-4`}>
+                  {zone.coverage} of county
                 </div>
-              );
-            })}
+                <p className="text-gray-700 leading-relaxed">{zone.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Population Demographics */}
+        <section id="population-and-demographics" className="mb-20 scroll-mt-24">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 bg-purple-100 rounded-xl">
+              <Users className="w-6 h-6 text-purple-600" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Population and Demographics</h2>
           </div>
 
-          <h2 id="population-and-demographics" className="text-2xl font-bold mt-10 mb-4 scroll-mt-16">Population and Demographics</h2>
-          <p>
-            According to the 2019 Census, Trans Nzoia County had a population of 990,341 people,
-            including 489,107 males and 501,206 females.
-          </p>
-          <p>
-            The population density was 397 people per square kilometer, making it one of the more
-            densely populated rural counties in Kenya.
-          </p>
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-purple-50 to-white rounded-2xl p-8 border border-purple-200 shadow-lg">
+              <div className="text-5xl font-bold text-purple-600 mb-2">990,341</div>
+              <div className="text-gray-700 font-medium">Total Population (2019)</div>
+              <div className="mt-4 flex gap-4">
+                <div>
+                  <div className="text-2xl font-bold text-blue-600">489,107</div>
+                  <div className="text-sm text-gray-600">Males</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-pink-600">501,206</div>
+                  <div className="text-sm text-gray-600">Females</div>
+                </div>
+              </div>
+            </div>
 
-          <div className="my-8">
-            <h3 className="text-xl font-semibold mb-4">Age Distribution</h3>
+            <div className="bg-gradient-to-br from-orange-50 to-white rounded-2xl p-8 border border-orange-200 shadow-lg">
+              <div className="text-5xl font-bold text-orange-600 mb-2">397</div>
+              <div className="text-gray-700 font-medium">People per km²</div>
+              <p className="mt-4 text-gray-600 text-sm">
+                Making it one of the more densely populated rural counties in Kenya
+              </p>
+            </div>
+          </div>
+
+          {/* Age Distribution Table */}
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+            <div className="bg-gradient-to-r from-purple-600 to-purple-700 px-8 py-4">
+              <h3 className="text-xl font-bold text-white">Age Distribution</h3>
+            </div>
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead>
-                  <tr className="bg-gray-50">
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">Age Cohort</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">Male</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">Female</th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900">Total</th>
+              <table className="min-w-full">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Age Group</th>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Male</th>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Female</th>
+                    <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">Total</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -300,116 +474,194 @@ const TransNzoiaBlog = () => {
                     {age: '35-59', male: 86120, female: 88970, total: 175090},
                     {age: '60+', male: 24644, female: 26610, total: 51254}
                   ].map((row, index) => (
-                    <tr key={row.age} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                      <td className="px-4 py-2 text-sm text-gray-900">{row.age}</td>
-                      <td className="px-4 py-2 text-sm text-gray-900">{row.male.toLocaleString()}</td>
-                      <td className="px-4 py-2 text-sm text-gray-900">{row.female.toLocaleString()}</td>
-                      <td className="px-4 py-2 text-sm text-gray-900 font-medium">{row.total.toLocaleString()}</td>
+                    <tr key={row.age} className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-purple-50 transition-colors`}>
+                      <td className="px-6 py-4 text-sm font-semibold text-gray-900">{row.age}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{row.male.toLocaleString()}</td>
+                      <td className="px-6 py-4 text-sm text-gray-700">{row.female.toLocaleString()}</td>
+                      <td className="px-6 py-4 text-sm font-bold text-purple-700">{row.total.toLocaleString()}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <p className="text-sm text-gray-500 mt-2">Data source: 2019 Kenya Population and Housing Census</p>
-          </div>
-
-          <h2 id="poverty-analysis" className="text-2xl font-bold mt-10 mb-4 scroll-mt-16">Poverty Analysis</h2>
-          <p>
-            Trans Nzoia has a monetary poverty rate of 34.1%, which is nearly the same as the
-            national rate of 35.7%. Approximately 337,935 people in the county are monetarily poor.
-          </p>
-
-          {/* Interactive chart for poverty comparison */}
-          <div className="my-6 p-4 bg-white rounded-lg shadow-md">
-            <h4 className="text-lg font-medium mb-3">Poverty Rates Comparison</h4>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>Monetary Poverty Rate</span>
-                  <span>34.1%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-4">
-                  <div className="bg-red-500 h-4 rounded-full" style={{ width: "34.1%" }}></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>Multidimensional Poverty Rate</span>
-                  <span>58.7%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-4">
-                  <div className="bg-indigo-600 h-4 rounded-full" style={{ width: "58.7%" }}></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>National Poverty Rate</span>
-                  <span>35.7%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-4">
-                  <div className="bg-green-500 h-4 rounded-full" style={{ width: "35.7%" }}></div>
-                </div>
-              </div>
+            <div className="px-8 py-4 bg-gray-50 text-sm text-gray-600">
+              Data source: 2019 Kenya Population and Housing Census
             </div>
           </div>
-          
-          <p>
-            More significantly, the county has a multidimensional poverty rate of 58.7%, which is
-            24 percentage points higher than the monetary poverty rate. This means a total of 580,834
-            people are multidimensionally poor, experiencing deprivation across multiple aspects of life.
-          </p>
+        </section>
 
-          <div className="my-8 bg-gray-50 p-6 rounded-lg transition-all duration-300 hover:bg-gray-100">
-            <h3 className="text-xl font-semibold mb-3">Poverty by Age Group</h3>
-            <ul className="list-disc pl-6">
-              <li className="mb-2 hover:text-indigo-700 transition-colors duration-300"><strong>Children (0-17):</strong> 57.7% are multidimensionally poor, 5 percentage points higher than the national average</li>
-              <li className="mb-2 hover:text-indigo-700 transition-colors duration-300"><strong>Youth (18-34):</strong> 54% are multidimensionally poor compared to a national average of 48.1%</li>
-              <li className="mb-2 hover:text-indigo-700 transition-colors duration-300"><strong>Adults (35-59):</strong> High levels of multidimensional poverty driven by education, economic activity, sanitation and housing</li>
-              <li className="hover:text-indigo-700 transition-colors duration-300"><strong>Elderly (60+):</strong> 58.7% are multidimensionally poor compared to a national average of 55.7%</li>
-            </ul>
+        {/* Poverty Analysis */}
+        <section id="poverty-analysis" className="mb-20 scroll-mt-24">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 bg-red-100 rounded-xl">
+              <TrendingDown className="w-6 h-6 text-red-600" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Poverty Analysis</h2>
           </div>
 
-          <h2 id="why-this-matters-for-our-work" className="text-2xl font-bold mt-10 mb-4 scroll-mt-16">Why This Matters For Our Work</h2>
-          <p>
-            Understanding the geographic, climatic, demographic, and economic context of Trans Nzoia County
-            is essential for our work at Hopeful Destiny CBO. These statistics and facts inform our program
-            design, helping us target our resources where they are most needed.
-          </p>
-          <p>
-            The high rates of multidimensional poverty, especially among children and youth, highlight the
-            importance of our focus on education, child protection, health and nutrition, food security, and
-            water and sanitation projects. Our climate change initiatives are also critically important given
-            the county's dependence on agriculture and vulnerability to changing weather patterns.
-          </p>
-          <p>
-            By sharing this information, we hope to provide context for our work and demonstrate why your
-            support is so vital to improving lives in Trans Nzoia County.
-          </p>
-        </div>
+          <div className="bg-gradient-to-br from-red-50 to-white rounded-2xl p-8 border border-red-200 shadow-lg mb-8">
+            <p className="text-lg text-gray-700 leading-relaxed">
+              Trans Nzoia has a <strong className="text-red-700">monetary poverty rate of 34.1%</strong>, nearly the same as the
+              national rate of 35.7%. More significantly, the county has a <strong className="text-red-700">multidimensional poverty rate of 58.7%</strong>.
+            </p>
+          </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <img className="h-12 w-12 rounded-full" src="/api/placeholder/80/80" alt="Hopeful Destiny CBO Logo" />
+          {/* Poverty Comparison Chart */}
+          <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-200">
+            <h4 className="text-xl font-bold text-gray-900 mb-6">Poverty Rates Comparison</h4>
+            <div className="space-y-6">
+
+              {[
+                { label: 'Monetary Poverty Rate', value: 34.1, color: 'red', description: '337,935 people affected' },
+                { label: 'Multidimensional Poverty', value: 58.7, color: 'orange', description: '580,834 people affected' },
+                { label: 'National Poverty Rate', value: 35.7, color: 'green', description: 'Kenya average' }
+              ].map((item, idx) => (
+                <div key={idx} className="group">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="font-semibold text-gray-900">{item.label}</span>
+                    <span className={`text-2xl font-bold text-${item.color}-600`}>{item.value}%</span>
+                  </div>
+                  <div className="relative w-full bg-gray-200 rounded-full h-6 overflow-hidden">
+                    <div
+                      className={`h-full bg-gradient-to-r from-${item.color}-500 to-${item.color}-600 rounded-full transition-all duration-1000 ease-out flex items-center justify-end px-3`}
+                      style={{ 
+                        width: `${item.value}%`,
+                        animationDelay: `${idx * 200}ms`
+                      }}
+                    >
+                      <span className="text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                        {item.value}%
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 mt-1">{item.description}</p>
+                </div>
+              ))}
             </div>
-            <div className="ml-4">
-              <h4 className="text-lg font-bold text-gray-900">Hopeful Destiny CBO</h4>
-              <p className="text-gray-600">
-                Supporting children, youth and women through sponsorship and empowerment projects in Trans Nzoia County.
+          </div>
+
+          {/* Poverty by Age Group */}
+          <div className="mt-8 bg-gradient-to-br from-yellow-50 to-white rounded-2xl p-8 border border-yellow-200 shadow-lg">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Poverty by Age Group</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                { group: 'Children (0-17)', rate: '57.7%', detail: '5 points above national average', icon: '👶', color: 'blue' },
+                { group: 'Youth (18-34)', rate: '54%', detail: 'vs 48.1% national average', icon: '🧑', color: 'green' },
+                { group: 'Adults (35-59)', rate: 'High', detail: 'Driven by education & employment gaps', icon: '👨', color: 'yellow' },
+                { group: 'Elderly (60+)', rate: '58.7%', detail: 'vs 55.7% national average', icon: '👴', color: 'purple' }
+              ].map((item, idx) => (
+                <div 
+                  key={idx} 
+                  className={`group bg-${item.color}-50 rounded-xl p-6 border-2 border-${item.color}-200 hover:border-${item.color}-400 hover:shadow-xl transition-all transform hover:-translate-y-1 cursor-pointer`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="text-4xl transform group-hover:scale-110 transition-transform">
+                      {item.icon}
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-bold text-gray-900 mb-1">{item.group}</h4>
+                      <div className={`text-2xl font-bold text-${item.color}-700 mb-2`}>{item.rate}</div>
+                      <p className="text-sm text-gray-600">{item.detail}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Why This Matters */}
+        <section id="why-this-matters" className="mb-16 scroll-mt-24">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 bg-yellow-100 rounded-xl">
+              <Heart className="w-6 h-6 text-yellow-600" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Why This Matters For Our Work</h2>
+          </div>
+
+          <div className="bg-gradient-to-br from-yellow-50 via-white to-yellow-50 rounded-3xl p-10 shadow-2xl border-2 border-yellow-300">
+            <div className="prose prose-lg max-w-none">
+              <p className="text-xl text-gray-700 leading-relaxed mb-6">
+                Understanding the geographic, climatic, demographic, and economic context of Trans Nzoia County
+                is essential for our work at <span className="font-bold text-yellow-700">Hopeful Destiny CBO</span>. 
+                These statistics and facts inform our program design, helping us target our resources where they are most needed.
+              </p>
+              
+              <div className="grid md:grid-cols-2 gap-6 mt-8">
+                {[
+                  { title: 'Education & Child Protection', reason: 'High child poverty rates demand focused support' },
+                  { title: 'Health & Nutrition', reason: 'Addressing multidimensional poverty indicators' },
+                  { title: 'Climate Change Initiatives', reason: 'Erratic rainfall patterns affect agriculture' },
+                  { title: 'Economic Empowerment', reason: 'Breaking the cycle of generational poverty' }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-3 bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition-all border border-yellow-200">
+                    <div className="w-8 h-8 bg-yellow-600 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 mt-1">
+                      {idx + 1}
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-1">{item.title}</h4>
+                      <p className="text-sm text-gray-600">{item.reason}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-lg text-gray-700 leading-relaxed mt-8 text-center font-medium">
+                By sharing this information, we hope to provide context for our work and demonstrate why your
+                support is so vital to <span className="text-yellow-700 font-bold">improving lives in Trans Nzoia County</span>.
               </p>
             </div>
           </div>
+        </section>
 
-          <div className="mt-8 flex flex-wrap gap-4">
-            <a href="/donate" className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition-colors duration-300 transform hover:scale-105">
-              Donate Now
-            </a>
-            <a href="/about" className="inline-flex items-center px-4 py-2 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-300">
-              Learn More About Our Work
-            </a>
+        {/* Call to Action */}
+        <div className="bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-3xl p-10 shadow-2xl relative overflow-hidden">
+          {/* Animated background */}
+          <div className="absolute inset-0 overflow-hidden">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-3 h-3 bg-white rounded-full opacity-20 animate-float"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  animationDuration: `${8 + Math.random() * 12}s`,
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="relative z-10 text-center">
+            <Heart className="w-16 h-16 text-white mx-auto mb-6 animate-pulse" />
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Join Us in Making a Difference
+            </h3>
+            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+              Your support helps us serve the communities of Trans Nzoia County
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                to="/donate" 
+                className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-yellow-700 rounded-full font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl"
+              >
+                Donate Now
+                <Heart className="w-5 h-5 group-hover:scale-110 transition-transform fill-current" />
+              </Link>
+              <Link
+                to="/about" 
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-yellow-800 text-white rounded-full font-bold text-lg hover:bg-yellow-900 transition-all transform hover:scale-105 border-2 border-white/30"
+              >
+                Learn More About Our Work
+                <ChevronRight className="w-5 h-5" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };

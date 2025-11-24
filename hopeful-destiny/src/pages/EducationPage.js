@@ -1,153 +1,374 @@
+import React, { useState } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { BookOpen, Users, Heart, TrendingUp, Award, Home, Shield, CheckCircle, Target } from 'lucide-react';
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import childInClass from "../assets/Child in class.jpg";
 import DonateCTA from "../components/DonateCTA";
 
 function EducationPage() {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [heroRef, heroInView] = useInView({ threshold: 0.3, triggerOnce: true });
+  const [statsRef, statsInView] = useInView({ threshold: 0.3, triggerOnce: true });
+  const [impactRef, impactInView] = useInView({ threshold: 0.3, triggerOnce: true });
+
+  const keyStats = [
+    { icon: <Users className="w-8 h-8" />, value: '90%', label: 'Face Educational Barriers', color: 'red' },
+    { icon: <BookOpen className="w-8 h-8" />, value: '500+', label: 'Children Supported', color: 'blue' },
+    { icon: <Award className="w-8 h-8" />, value: '100+', label: 'Youth Trained', color: 'green' },
+    { icon: <Home className="w-8 h-8" />, value: '50+', label: 'Children Reintegrated', color: 'purple' },
+  ];
+
+  const focusAreas = [
+    {
+      icon: <BookOpen className="w-6 h-6" />,
+      title: 'School Fees & Materials',
+      description: 'Covering school fees, uniforms, books, and essential learning materials for children from poor households.',
+      color: 'blue'
+    },
+    {
+      icon: <Users className="w-6 h-6" />,
+      title: 'Vocational Training',
+      description: 'Empowering youth with technical skills for income-generating activities and self-sufficiency.',
+      color: 'green'
+    },
+    {
+      icon: <Heart className="w-6 h-6" />,
+      title: 'Mentorship Programs',
+      description: 'Providing guidance and support to help enrolled children pursue their educational goals.',
+      color: 'yellow'
+    },
+    {
+      icon: <Shield className="w-6 h-6" />,
+      title: 'Child Protection',
+      description: 'Supporting street children reintegration and providing safe rescue centers.',
+      color: 'purple'
+    },
+  ];
+
+  const interventions = [
+    {
+      gap: 'Children from poor households fail to attain education due to lack of basic needs and learning materials',
+      interventions: [
+        'Payment of school fees and subsidiary payments',
+        'Supplying children with school uniforms, books, and learning items'
+      ],
+      achievements: ['Increased number of school enrollments in the county'],
+      monitoring: ['Number of children supported with school fees, backpacks, stationery'],
+      icon: <BookOpen className="w-8 h-8" />,
+      color: 'blue'
+    },
+    {
+      gap: 'Lack of skills among youth that can support income-generating activities',
+      interventions: [
+        'Supporting vocational training of youth',
+        'Supporting mentorship programs for enrolled children'
+      ],
+      achievements: [
+        'Increased number of youth/women with technical skills',
+        'Increased number of mentored children in pursuing education'
+      ],
+      monitoring: [
+        'Number of youth/women who are supported in acquiring skills',
+        'Number of children supported by CBO programs who continue with education',
+        'Number of children and institutions in youth mentorship programs'
+      ],
+      icon: <Award className="w-8 h-8" />,
+      color: 'green'
+    },
+    {
+      gap: 'Child protection issues arising from cases of street children',
+      interventions: [
+        'Supporting the reintegration of children into their homes',
+        'Supporting seasonal rescue centers'
+      ],
+      achievements: [
+        'Reintegration of street children with existing family unions',
+        'Children being hosted at rescue centers before reintegration'
+      ],
+      monitoring: [
+        'Number of children reintegrated with households',
+        'Number of children supported at rescue centers'
+      ],
+      icon: <Shield className="w-8 h-8" />,
+      color: 'purple'
+    }
+  ];
+
   return (
-		<>
-			<Navigation />
-			{/* Responsive Image */}
-			<div className="mb-8 pt-20">
-				<img
-					src={childInClass}
-					alt="Child In Class"
-					className="w-full h-96 object-cover"
-				/>
-			</div>
-			<div className="container mx-auto p-4">
-				{/* Text Block */}
-				<div className="mb-8">
-					<p className="text-lg leading-relaxed">
-						Our commitment to water sanitation and hygiene is unwavering. We strive to
-						ensure access to clean water and promote healthy practices within
-						communities. Through our various initiatives, we aim to combat the
-						challenges posed by water scarcity and inadequate sanitation,
-						ultimately improving the quality of life for all.
-					</p>
-					<p className="text-lg leading-relaxed mt-4">
-						We believe that everyone deserves access to safe drinking water and
-						proper sanitation facilities. We work tirelessly to implement
-						sustainable solutions that address the root causes of these issues,
-						fostering a healthier and more resilient future.
-					</p>
-				</div>
-				<p className="mb-4 text-lg text-gray-700">
-        Education is the cornerstone of a thriving community, yet many children from poor households face significant barriers to accessing quality education. The lack of basic needs and learning materials often prevents these children from achieving their full potential. Our organization is dedicated to bridging these gaps and ensuring that every child has the opportunity to learn and succeed.
-				</p>
+    <>
+      <Navigation />
 
-				<div className="my-8 flex justify-center">
-					<div className="relative w-64 h-64 rounded-full bg-gradient-to-r from-blue-300 to-blue-600 flex items-center justify-center">
-						<div className="absolute w-56 h-56 rounded-full bg-white flex items-center justify-center">
-							<span className="text-4xl font-bold text-blue-700">
-								90%
-							</span>
-						</div>
-						<div className="absolute w-64 h-64 rounded-full border-4 border-blue-700 animate-spin"></div>
-					</div>
-				</div>
+      {/* Hero Section with Parallax Effect */}
+      <div 
+        ref={heroRef}
+        className="relative h-[500px] overflow-hidden"
+      >
+        <div 
+          className="absolute inset-0 bg-cover bg-center transform transition-transform duration-500"
+          style={{ 
+            backgroundImage: `url(${childInClass})`,
+            transform: heroInView ? 'scale(1)' : 'scale(1.1)'
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-800/80" />
+        
+        <div className={`relative h-full flex items-center justify-center text-center px-6 transition-all duration-1000 ${
+          heroInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full mb-6">
+              <BookOpen className="w-5 h-5 text-white" />
+              <span className="text-white font-semibold">Education & Child Protection</span>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+              Empowering Through Education
+            </h1>
+            <p className="text-xl md:text-2xl text-white/90 leading-relaxed">
+              Breaking barriers and creating opportunities for every child to learn and succeed
+            </p>
+          </div>
+        </div>
+      </div>
 
-				<p className="mb-4 text-lg text-gray-700">
-					This visual represents the estimated percentage of children in our target communities who face significant educational barriers due to poverty.
-				</p>
+      {/* Key Statistics */}
+      <section 
+        ref={statsRef}
+        className="py-16 bg-gradient-to-b from-gray-50 to-white"
+      >
+        <div className="container mx-auto px-6">
+          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-1000 ${
+            statsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}>
+            {keyStats.map((stat, index) => (
+              <div
+                key={index}
+                className={`group bg-gradient-to-br from-${stat.color}-50 to-white rounded-2xl p-8 border-2 border-${stat.color}-200 hover:border-${stat.color}-400 transition-all transform hover:scale-105 hover:-translate-y-2 shadow-lg hover:shadow-xl cursor-pointer`}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className={`inline-flex p-4 bg-${stat.color}-100 rounded-xl mb-4 group-hover:scale-110 transition-transform`}>
+                  <div className={`text-${stat.color}-600`}>{stat.icon}</div>
+                </div>
+                <div className="text-4xl font-bold text-gray-900 mb-2">{stat.value}</div>
+                <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-				<p className="mb-4 text-lg text-gray-700">
-					Our interventions are designed to address these challenges head-on. We are committed to paying school fees and providing subsidiary payments to alleviate the financial burden on families. Additionally, we supply children with essential school uniforms, books, and learning items, ensuring they have the tools they need to succeed. Through these efforts, we aim to significantly increase school enrollments within our county.
-				</p>
+      {/* Main Content with Tabs */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-6">
+          {/* Tab Navigation */}
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            {[
+              { id: 'overview', label: 'Overview', icon: <Target className="w-5 h-5" /> },
+              { id: 'focus', label: 'Focus Areas', icon: <BookOpen className="w-5 h-5" /> },
+              { id: 'interventions', label: 'Our Interventions', icon: <CheckCircle className="w-5 h-5" /> }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all transform hover:scale-105 ${
+                  activeTab === tab.id
+                    ? 'bg-blue-600 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {tab.icon}
+                {tab.label}
+              </button>
+            ))}
+          </div>
 
-				<p className="mb-4 text-lg text-gray-700">
-					Recognizing the importance of skills development, we also support vocational training for youth, empowering them to engage in income-generating activities. Furthermore, we implement mentorship programs for enrolled children, providing guidance and support to help them pursue their educational goals. These initiatives will increase the number of youth with technical skills and the number of children who continue with their education, fostering long-term self-sufficiency and success.
-				</p>
+          {/* Tab Content */}
+          <div className="max-w-6xl mx-auto">
+            {/* Overview Tab */}
+            {activeTab === 'overview' && (
+              <div className="animate-fade-in">
+                <div className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 md:p-12 shadow-xl border border-blue-200 mb-8">
+                  <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                    <BookOpen className="w-8 h-8 text-blue-600" />
+                    The Challenge
+                  </h2>
+                  <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                    Education is the cornerstone of a thriving community, yet many children from poor households face significant barriers to accessing quality education. The lack of basic needs and learning materials often prevents these children from achieving their full potential.
+                  </p>
+                  <p className="text-lg text-gray-700 leading-relaxed">
+                    Our organization is dedicated to bridging these gaps and ensuring that every child has the opportunity to learn and succeed.
+                  </p>
+                </div>
 
-				<p className="mb-4 text-lg text-gray-700">
-					Child protection is another critical area of focus. We address the challenges faced by street children by supporting their reintegration into their homes and providing seasonal rescue centers. These centers offer a safe haven for children before they are reintegrated with their families. By supporting these efforts, we aim to reintegrate street children with existing family unions and provide crucial support at rescue centers.
-				</p>
+                {/* Circular Progress Visual */}
+                <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-200 text-center">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-8">Educational Barriers in Our Communities</h3>
+                  <div className="flex justify-center mb-8">
+                    <div className="relative w-64 h-64">
+                      <svg className="w-full h-full transform -rotate-90">
+                        <circle
+                          cx="128"
+                          cy="128"
+                          r="110"
+                          stroke="#e5e7eb"
+                          strokeWidth="20"
+                          fill="none"
+                        />
+                        <circle
+                          cx="128"
+                          cy="128"
+                          r="110"
+                          stroke="url(#gradient)"
+                          strokeWidth="20"
+                          fill="none"
+                          strokeDasharray={`${2 * Math.PI * 110}`}
+                          strokeDashoffset={`${2 * Math.PI * 110 * (1 - 0.9)}`}
+                          className="transition-all duration-2000"
+                        />
+                        <defs>
+                          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#3b82f6" />
+                            <stop offset="100%" stopColor="#1d4ed8" />
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="text-6xl font-bold text-blue-600 mb-2">90%</div>
+                          <div className="text-sm text-gray-600 font-medium">of children</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 max-w-2xl mx-auto">
+                    This represents the estimated percentage of children in our target communities who face significant educational barriers due to poverty.
+                  </p>
+                </div>
+              </div>
+            )}
 
-				<p className="mb-4 text-lg text-gray-700">
-					To ensure accountability and measure our impact, we have developed comprehensive monitoring and evaluation plans. We track the number of children supported with school fees, backpacks, and stationery, as well as the number of youth and women who acquire technical skills. We also monitor the number of children supported by our programs who continue with their education and the number of children and institutions involved in our youth mentorship programs. Furthermore, we track the number of children reintegrated with households and supported at rescue centers. Through these measures, we aim to demonstrate our commitment to improving educational outcomes and child protection within our community.
-				</p>
-				<h2 className="text-lg text-center font-bold m-8">Education and Child Protection</h2>
-				<table className="min-w-full border border-collapse">
-					<thead>
-						<tr>
-							<th className="border p-2">Gaps</th>
-							<th className="border p-2">Interventions</th>
-							<th className="border p-2">Potential Achievements</th>
-							<th className="border p-2">Monitoring and Evaluation Plans</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td className="border p-2">
-								Children from poor households fail to attain education due to a lack of basic needs and learning materials.
-								<br />
-							</td>
-							<td className="border p-2">
-								<ul className="list-disc list-inside">
-									<li>Payment of school fees and subsidiary payments.</li>
-									<li>Supplying children with school uniforms, books, and learning items.</li>
-								</ul>
-							</td>
-							<td className="border p-2">
-								Increased number of school enrollments in the county.
-							</td>
-							<td className="border p-2">
-								Number of children supported with school fees, backpacks, stationery.
-							</td>
-						</tr>
-						<tr>
-							<td className="border p-2">
-								Lack of skills among youth that can support income-generating activities.
-							</td>
-							<td className="border p-2">
-								<ul className="list-disc list-inside">
-									<li>Supporting vocational training of youth.</li>
-									<li>Supporting mentorship programs for enrolled children.</li>
-								</ul>
-							</td>
-							<td className="border p-2">
-								<ul className="list-disc list-inside">
-									<li>Increased number of youth/women with technical skills.</li>
-									<li>Increased number of mentored children in pursuing education.</li>
-								</ul>
-							</td>
-							<td className="border p-2">
-								<ul className="list-disc list-inside">
-									<li>Number of youth/women who are supported in acquiring skills.</li>
-									<li>Number of children supported by the CBO programs who continue with education.</li>
-									<li>Number of children and institutions in youth mentorship programs.</li>
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<td className="border p-2">
-								Child protection issues arising from cases of street children.
-							</td>
-							<td className="border p-2">
-								<ul className="list-disc list-inside">
-									<li>Supporting the reintegration of children into their homes.</li>
-									<li>Supporting seasonal rescue centers.</li>
-								</ul>
-							</td>
-							<td className="border p-2">
-								<ul className="list-disc list-inside">
-									<li>Reintegration of street children with existing family unions.</li>
-									<li>Children being hosted at rescue centers before reintegration.</li>
-								</ul>
-							</td>
-							<td className="border p-2">
-								<ul className="list-disc list-inside">
-									<li>Number of children reintegrated with households.</li>
-									<li>Number of children supported at rescue centers.</li>
-								</ul>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-    	</div>
-			<DonateCTA />
-			<Footer />
-		</>
+            {/* Focus Areas Tab */}
+            {activeTab === 'focus' && (
+              <div className="grid md:grid-cols-2 gap-6 animate-fade-in">
+                {focusAreas.map((area, index) => (
+                  <div
+                    key={index}
+                    className={`group bg-gradient-to-br from-${area.color}-50 to-white rounded-2xl p-8 border-2 border-${area.color}-200 hover:border-${area.color}-400 transition-all transform hover:scale-105 hover:shadow-xl`}
+                  >
+                    <div className={`inline-flex p-4 bg-${area.color}-100 rounded-xl mb-4 group-hover:scale-110 transition-transform`}>
+                      <div className={`text-${area.color}-600`}>{area.icon}</div>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-3">{area.title}</h3>
+                    <p className="text-gray-700 leading-relaxed">{area.description}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Interventions Tab */}
+            {activeTab === 'interventions' && (
+              <div className="space-y-8 animate-fade-in">
+                {interventions.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`bg-gradient-to-br from-${item.color}-50 to-white rounded-2xl p-8 shadow-xl border-2 border-${item.color}-200 hover:border-${item.color}-400 transition-all`}
+                  >
+                    <div className="flex items-start gap-6">
+                      <div className={`flex-shrink-0 p-4 bg-${item.color}-100 rounded-xl`}>
+                        <div className={`text-${item.color}-600`}>{item.icon}</div>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">Challenge {index + 1}</h3>
+                        
+                        {/* Gap */}
+                        <div className="mb-6">
+                          <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                            <span className={`w-2 h-2 bg-${item.color}-500 rounded-full`}></span>
+                            The Gap
+                          </h4>
+                          <p className="text-gray-700 pl-4">{item.gap}</p>
+                        </div>
+
+                        {/* Interventions */}
+                        <div className="mb-6">
+                          <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                            <span className={`w-2 h-2 bg-${item.color}-500 rounded-full`}></span>
+                            Our Interventions
+                          </h4>
+                          <ul className="space-y-2 pl-4">
+                            {item.interventions.map((intervention, idx) => (
+                              <li key={idx} className="flex items-start gap-2">
+                                <CheckCircle className={`w-5 h-5 text-${item.color}-600 flex-shrink-0 mt-0.5`} />
+                                <span className="text-gray-700">{intervention}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Achievements */}
+                        <div className="mb-6">
+                          <h4 className="font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                            <span className={`w-2 h-2 bg-${item.color}-500 rounded-full`}></span>
+                            Expected Achievements
+                          </h4>
+                          <ul className="space-y-2 pl-4">
+                            {item.achievements.map((achievement, idx) => (
+                              <li key={idx} className="flex items-start gap-2">
+                                <TrendingUp className={`w-5 h-5 text-${item.color}-600 flex-shrink-0 mt-0.5`} />
+                                <span className="text-gray-700">{achievement}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Monitoring */}
+                        <div className={`bg-${item.color}-100 rounded-xl p-4`}>
+                          <h4 className="font-semibold text-gray-900 mb-2">Monitoring & Evaluation</h4>
+                          <ul className="space-y-1">
+                            {item.monitoring.map((metric, idx) => (
+                              <li key={idx} className="text-sm text-gray-700 flex items-center gap-2">
+                                <span className={`w-1.5 h-1.5 bg-${item.color}-600 rounded-full`}></span>
+                                {metric}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Impact Section */}
+      <section 
+        ref={impactRef}
+        className="py-16 bg-gradient-to-br from-blue-50 to-white"
+      >
+        <div className={`container mx-auto px-6 transition-all duration-1000 ${
+          impactInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              Our Commitment to Accountability
+            </h2>
+            <p className="text-xl text-gray-700 leading-relaxed mb-8">
+              We track the number of children supported with school fees, backpacks, and stationery, as well as youth and women who acquire technical skills. Through comprehensive monitoring and evaluation, we demonstrate our commitment to improving educational outcomes and child protection.
+            </p>
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full font-semibold text-lg hover:bg-blue-700 transition-all transform hover:scale-105 cursor-pointer">
+              <Target className="w-6 h-6" />
+              Learn More About Our Impact
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <DonateCTA />
+      <Footer />
+    </>
   );
 }
 

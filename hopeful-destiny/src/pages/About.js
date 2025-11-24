@@ -5,7 +5,7 @@ import VisionMissionPromise from '../components/VisionMissionPromise';
 import Values from '../components/Values';
 import Leadership from '../components/Leadership';
 import Footer from '../components/Footer';
-
+import DonateCTA from '../components/DonateCTA';
 const AboutPage = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -131,42 +131,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Call to Action Banner */}
-      <section className="py-16 bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-500 relative overflow-hidden">
-        {/* Animated background pattern */}
-        <div className="absolute inset-0 opacity-10">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-4 h-4 bg-white rounded-full animate-float"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${10 + Math.random() * 10}s`,
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Make a Difference?
-          </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Join us in our mission to empower communities and create lasting change
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="group bg-white text-yellow-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl">
-              Donate Now
-              <span className="inline-block ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
-            </button>
-            <button className="bg-yellow-700 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-800 transition-all transform hover:scale-105 border-2 border-white/30 hover:border-white">
-              Get Involved
-            </button>
-          </div>
-        </div>
-      </section>
+      <DonateCTA />
 
       <Footer />
     </div>

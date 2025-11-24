@@ -1,6 +1,7 @@
 // components/Footer.jsx
 import React from 'react';
 import { Phone, Mail, MapPin, Facebook, Linkedin, Instagram } from 'lucide-react';
+import { Link } from 'react-router-dom'; // Add this import
 
 const Footer = () => {
   return (
@@ -14,10 +15,10 @@ const Footer = () => {
           <div>
             <h3 className="text-yellow-700 text-xl font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="/" className="text-gray-400 hover:text-white transition">Home</a></li>
-              <li><a href="#about" className="text-gray-400 hover:text-white transition">About</a></li>
-              <li><a href="#programs" className="text-gray-400 hover:text-white transition">Programs</a></li>
-              <li><a href="#contact" className="text-gray-400 hover:text-white transition">Contact</a></li>
+              <li><Link to="/" className="text-gray-400 hover:text-white transition">Home</Link></li>
+              <li><Link to="/about" className="text-gray-400 hover:text-white transition">About</Link></li>
+              <li><Link to="/programs" className="text-gray-400 hover:text-white transition">Thematic Areas</Link></li>
+              <li><Link to="/contact" className="text-gray-400 hover:text-white transition">Contact</Link></li>
             </ul>
           </div>
           <div>
@@ -29,11 +30,11 @@ const Footer = () => {
               </li>
               <li className="flex items-center text-gray-400">
                 <Phone className="w-4 h-4 mr-2" />
-                +254 XXX XXX XXX
+                +254 710330788
               </li>
               <li className="flex items-center text-gray-400">
                 <Mail className="w-4 h-4 mr-2" />
-                info@hopefuldestiny.org
+                hopefuldestinyorganisation@gmail.com
               </li>
             </ul>
           </div>

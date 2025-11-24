@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; 
 import { ArrowRight, Heart, Users, BookOpen } from 'lucide-react';
 import heroImage from '../assets/children-laughing.jpg';
+import DonationButton from './DonationButton';
+
+
 
 const Hero = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -88,15 +92,19 @@ const Hero = () => {
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
           >
-            <button className="group bg-yellow-700 text-black px-8 py-3 rounded-full font-semibold hover:bg-yellow-400 transition-all transform hover:scale-105 hover:shadow-2xl flex items-center justify-center gap-2">
-              Donate Now
-              <Heart className="w-5 h-5 group-hover:animate-pulse" />
-            </button>
-            
-            <button className="group bg-white/10 backdrop-blur-sm text-white px-8 py-3 rounded-full font-semibold hover:bg-white/20 transition-all border-2 border-white/30 hover:border-white flex items-center justify-center gap-2">
+            <DonationButton
+              text="Donate Now"
+              variant="primary"
+              size="medium"
+            />
+
+            <Link
+              to="/about"
+              className="group bg-white/10 backdrop-blur-sm text-white px-8 py-3 rounded-full font-semibold hover:bg-white/20 transition-all border-2 border-white/30 hover:border-white flex items-center justify-center gap-2"
+             >
               Learn More
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
+            </Link>
           </div>
 
           {/* Animated Stats Cards */}

@@ -223,9 +223,9 @@ const ProgramsPage = () => {
             {/* Impact Statement */}
             <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
-                { amount: '$10', impact: 'School supplies for one child' },
-                { amount: '$50', impact: 'Health clinic visit for a family' },
-                { amount: '$100', impact: 'Month of clean water access' },
+                { amount: 'Ksh 1,000', impact: 'School supplies for one child' },
+                { amount: 'Ksh 5,000', impact: 'Health clinic visit for a family' },
+                { amount: 'Ksh 10,000', impact: 'Month of clean water access' },
               ].map((item, index) => (
                 <div
                   key={index}
