@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import DonationButton from './DonationButton';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,11 +33,10 @@ const Navigation = () => {
             <NavLink to="/" text="Home" />
             <NavLink to="/about" text="About" />
             <NavLink to="/programs" text="Thematic Areas" />
-            <NavLink to="/blog" text="Blogs" /> 
+            <NavLink to="/blog" text="Blogs" />
             <NavLink to="/contact" text="Contact" />
-            <button className="bg-yellow-700 text-black px-6 py-2 rounded-full font-semibold hover:bg-yellow-400 transition">
-              Donate
-            </button>
+            {/* Use DonationButton for desktop too */}
+            <DonationButton text="Donate" size="small" />
           </div>
           <div className="md:hidden">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -51,9 +51,10 @@ const Navigation = () => {
             <NavLink to="/programs" text="Thematic Areas" mobile />
             <NavLink to="/blog" text="Blogs" mobile />
             <NavLink to="/contact" text="Contact" mobile />
-            <button className="w-full bg-yellow-700 text-black px-6 py-2 rounded-full font-semibold hover:bg-yellow-400 transition mt-4">
-              Donate
-            </button>
+            {/* Use DonationButton for mobile with full width */}
+            <div className="px-4 py-2">
+              <DonationButton text="Donate Now" size="medium" />
+            </div>
           </div>
         )}
       </div>

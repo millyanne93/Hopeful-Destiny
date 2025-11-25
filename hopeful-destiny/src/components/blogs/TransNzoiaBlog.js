@@ -5,6 +5,7 @@ import { MapPin, Cloud, Users, TrendingDown, Heart, ChevronRight, BarChart3, Mou
 import TransNzoiaMap from '../../assets/TransNzoia.jpg';
 import Footer from '../Footer';
 import { Link } from 'react-router-dom';
+import DonateCTA from '../DonateCTA';
 
 const TransNzoiaBlog = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -615,50 +616,7 @@ const TransNzoiaBlog = () => {
         </section>
 
         {/* Call to Action */}
-        <div className="bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 rounded-3xl p-10 shadow-2xl relative overflow-hidden">
-          {/* Animated background */}
-          <div className="absolute inset-0 overflow-hidden">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-3 h-3 bg-white rounded-full opacity-20 animate-float"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 5}s`,
-                  animationDuration: `${8 + Math.random() * 12}s`,
-                }}
-              />
-            ))}
-          </div>
-
-          <div className="relative z-10 text-center">
-            <Heart className="w-16 h-16 text-white mx-auto mb-6 animate-pulse" />
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Join Us in Making a Difference
-            </h3>
-            <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-              Your support helps us serve the communities of Trans Nzoia County
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/donate" 
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-yellow-700 rounded-full font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-xl"
-              >
-                Donate Now
-                <Heart className="w-5 h-5 group-hover:scale-110 transition-transform fill-current" />
-              </Link>
-              <Link
-                to="/about" 
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-yellow-800 text-white rounded-full font-bold text-lg hover:bg-yellow-900 transition-all transform hover:scale-105 border-2 border-white/30"
-              >
-                Learn More About Our Work
-                <ChevronRight className="w-5 h-5" />
-              </Link>
-            </div>
-          </div>
-        </div>
+        <DonateCTA/>
       </div>
 
       <Footer />
