@@ -26,8 +26,8 @@ const Hero = () => {
 
   // Stats that count up
   const stats = [
-    { icon: <Users className="w-6 h-6" />, number: '500+', label: 'Children Supported' },
-    { icon: <BookOpen className="w-6 h-6" />, number: '50+', label: 'Schools Reached' },
+    { icon: <Users className="w-6 h-6" />, number: '100+', label: 'Children Supported' },
+    { icon: <BookOpen className="w-6 h-6" />, number: '10+', label: 'Schools Reached' },
     { icon: <Heart className="w-6 h-6" />, number: '10+', label: 'Communities Served' },
   ];
 

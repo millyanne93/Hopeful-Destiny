@@ -12,6 +12,7 @@ import BlogRoutes from './BlogRoutes';
 import ProgramsPage from "./pages/ProgramsPage";
 import "./index.css";
 import DonationPage from './pages/DonationPage';
+import ContactPage from "./pages/ContactPage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/water-sanitation" element={<WaterPage />} />
         <Route path="/blog/*" element={<BlogRoutes />} />
         <Route path="/donate" element={<DonationPage />} />
+        <Route path="/contact" element={<ContactPage />} />
       </Routes>
     </Router>
   );

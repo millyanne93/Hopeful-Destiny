@@ -97,15 +97,6 @@ const AboutPage = () => {
         <div className={`container mx-auto px-6 relative z-10 transition-all duration-1000 delay-300 ${
           valuesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}>
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 relative inline-block">
-              Our Core Values
-              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent"></div>
-            </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              The values that define who we are and how we serve
-            </p>
-          </div>
           <Values />
         </div>
       </section>
@@ -118,15 +109,6 @@ const AboutPage = () => {
         <div className={`container mx-auto px-6 transition-all duration-1000 delay-400 ${
           leadershipInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}>
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 relative inline-block">
-              Meet Our Team
-              <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent"></div>
-            </h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Dedicated leaders committed to making a difference
-            </p>
-          </div>
           <Leadership />
         </div>
       </section>

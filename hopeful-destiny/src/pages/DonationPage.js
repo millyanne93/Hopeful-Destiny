@@ -16,8 +16,9 @@ const DonationPage = () => {
       description: 'Quick and secure mobile payment',
       color: 'green',
       details: {
-        'PayBill Number': '123456',
-        'Account Number': 'Your Name/Donation'
+        'Business Number': '400200',
+        'Account Number': '1052404',
+        'Business Name': 'Hopeful Destiny CBO'
       }
     },
     {
@@ -27,10 +28,11 @@ const DonationPage = () => {
       description: 'Direct bank deposit',
       color: 'blue',
       details: {
-        'Bank Name': 'Your Bank Name',
-        'Account Number': '1234567890',
-        'Branch': 'Main Branch',
-        'SWIFT Code': 'ABCDKENA'
+        'Bank Name': 'Co-operative Bank',
+        'Account Number': '011019567611001',
+        'Branch': 'Kitale',
+        'Bank Code': '11',
+        'Branch Code': '046'
       }
     }
   ];
