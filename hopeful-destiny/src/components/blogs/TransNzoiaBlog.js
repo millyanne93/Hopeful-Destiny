@@ -4,7 +4,6 @@ import { useInView } from 'react-intersection-observer';
 import { MapPin, Cloud, Users, TrendingDown, Heart, ChevronRight, BarChart3, Mountain } from 'lucide-react';
 import TransNzoiaMap from '../../assets/TransNzoia.jpg';
 import Footer from '../Footer';
-import { Link } from 'react-router-dom';
 import DonateCTA from '../DonateCTA';
 
 const TransNzoiaBlog = () => {

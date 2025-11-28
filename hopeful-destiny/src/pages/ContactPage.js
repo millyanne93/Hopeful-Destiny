@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { Mail, Phone, MapPin, Send, CheckCircle, Clock, MessageSquare, User } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, MessageSquare, User } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";

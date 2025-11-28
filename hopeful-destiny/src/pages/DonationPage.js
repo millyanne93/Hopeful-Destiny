@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
-import { CreditCard, Building2, ArrowRight, Check, Sparkles, Heart } from 'lucide-react';
+import { CreditCard, Building2, ArrowRight, Check, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const DonationPage = () => {

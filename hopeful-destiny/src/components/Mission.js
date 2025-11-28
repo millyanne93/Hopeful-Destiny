@@ -4,20 +4,20 @@ import { ChevronUp, ChevronDown, Sparkles } from 'lucide-react';
 const Mission = ({ alignment = "center", removeSection = false }) => {
   const [isAboutExpanded, setIsAboutExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [activeWord, setActiveWord] = useState(0);
 
   const highlightWords = ['children', 'youth', 'women', 'education', 'empowerment'];
 
   useEffect(() => {
     setIsVisible(true);
-    
+
     // Rotating highlight effect
     const interval = setInterval(() => {
-      setActiveWord((prev) => (prev + 1) % highlightWords.length);
+      // Removed unused activeWord state update
+      // If you want to implement word highlighting later, add the logic here
     }, 2000);
-    
+
     return () => clearInterval(interval);
-  }, []);
+  }, [highlightWords.length]); // Added highlightWords.length to dependency array
 
   const fullAboutContent = `Hopeful Destiny CBO is a non-political and non-profit organization in Kitale, Kenya, dedicated to supporting children, youth, and women through sponsorship and empowerment projects.
 
@@ -89,7 +89,7 @@ Hopeful Destiny CBO is committed to empowering communities through partnerships,
         <div className="min-h-[150px] relative">
           {/* Animated background card */}
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 to-white rounded-2xl transform transition-all duration-500 hover:shadow-xl -z-10"></div>
-          
+
           <div className="relative p-6 md:p-8">
             <p
               className={`text-gray-700 whitespace-pre-line leading-relaxed text-base md:text-lg ${
@@ -100,7 +100,7 @@ Hopeful Destiny CBO is committed to empowering communities through partnerships,
             >
               {isAboutExpanded ? fullAboutContent : shortAboutContent}
             </p>
-            
+
             {/* Fade overlay when collapsed */}
             {!isAboutExpanded && (
               <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
@@ -116,17 +116,17 @@ Hopeful Destiny CBO is committed to empowering communities through partnerships,
           >
             {/* Ripple effect background */}
             <span className="absolute inset-0 bg-yellow-600 transform scale-0 group-hover:scale-100 transition-transform duration-500 rounded-full"></span>
-            
+
             {/* Button content */}
             <span className="relative z-10 flex items-center">
               {isAboutExpanded ? (
                 <>
-                  Read Less 
+                  Read Less
                   <ChevronUp className="w-5 h-5 ml-2 transform group-hover:-translate-y-1 transition-transform" />
                 </>
               ) : (
                 <>
-                  Read More 
+                  Read More
                   <ChevronDown className="w-5 h-5 ml-2 transform group-hover:translate-y-1 transition-transform animate-bounce" />
                 </>
               )}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { Droplet, Users, TrendingUp, Target, CheckCircle, Award, Home, Shield, Wrench, Heart } from 'lucide-react';
+import { Droplet, Users, TrendingUp, Target, CheckCircle, Home, Shield, Wrench, Heart } from 'lucide-react';
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import waterAndSanitation from "../assets/Water.png";

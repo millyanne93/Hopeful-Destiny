@@ -1,4 +1,4 @@
-import { Users, Target, Heart, Shield } from "lucide-react";
+import { Target, Heart, Shield } from "lucide-react";
 import { Link } from 'react-router-dom';
 
 const Leadership = () => {
