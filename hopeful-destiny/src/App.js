@@ -16,7 +16,7 @@ import ContactPage from "./pages/ContactPage";
 
 function App() {
   return (
-    <Router basename="/Hopeful-Destiny">
+    <Router>
       <Navigation /> 
 
       <Routes>
