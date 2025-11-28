@@ -12,7 +12,7 @@ const Programs = () => {
       icon: <BookOpen className="w-12 h-12 text-yellow-600" />,
       title: "Education & Child Protection",
       description: "Supporting children with school fees, uniforms, books and learning items.",
-      to: "/Hopeful-Destiny/education",
+      to: "/education",
       color: "blue",
       stats: "500+ Children"
     },
@@ -20,7 +20,7 @@ const Programs = () => {
       icon: <Heart className="w-12 h-12 text-yellow-600" />,
       title: "Health & Nutrition",
       description: "Supporting health and nutrition programs, community training.",
-      to: "/Hopeful-Destiny/health",
+      to: "/health",
       color: "red",
       stats: "30+ Clinics"
     },
@@ -28,7 +28,7 @@ const Programs = () => {
       icon: <Users className="w-12 h-12 text-yellow-600" />,
       title: "Food Security & Livelihoods",
       description: "Supporting table banking, youth empowerment, and food security.",
-      to: "/Hopeful-Destiny/food-security",
+      to: "/food-security",
       color: "green",
       stats: "200+ Families"
     },
@@ -36,7 +36,7 @@ const Programs = () => {
       icon: <Droplet className="w-12 h-12 text-yellow-600" />,
       title: "Water & Sanitation",
       description: "Supporting clean water supply and hygiene promotion practices.",
-      to: "/Hopeful-Destiny/water-sanitation",
+      to: "/water-sanitation",
       color: "cyan",
       stats: "10+ Communities"
     },
@@ -44,7 +44,7 @@ const Programs = () => {
       icon: <Leaf className="w-12 h-12 text-yellow-600" />,
       title: "Climate Change",
       description: "Tree planting, adaptation measures, and research support.",
-      to: "/Hopeful-Destiny/climate",
+      to: "/climate",
       color: "emerald",
       stats: "5000+ Trees"
     },
