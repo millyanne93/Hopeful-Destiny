@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BookOpen, Heart, Users, Droplet, Leaf, ArrowRight, Info } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
-import { Link } from 'react-router-dom'; 
 
 
 const Programs = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { Leaf, Users, TrendingUp, Target, CheckCircle, Award, CloudRain, Recycle, BookOpen, Shield } from 'lucide-react';
+import { Leaf, Users, TrendingUp, Target, CheckCircle, CloudRain, Recycle, BookOpen } from 'lucide-react';
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import climatePic from "../assets/Climate.png";
