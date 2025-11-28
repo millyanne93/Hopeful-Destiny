@@ -3,7 +3,7 @@ import Hero from '../components/Hero';
 import Mission from '../components/Mission';
 import Programs from '../components/Programs';
 import Values from '../components/Values';
-import Donation from '../components/Donation';
+import DonateCTA from '../components/DonateCTA';
 import Footer from '../components/Footer';
 
 const HomePage = () => (
@@ -12,7 +12,7 @@ const HomePage = () => (
     <Mission />
     <Programs />
     <Values />
-    <Donation />
+    <DonateCTA />
     <Footer />
   </>
 );
